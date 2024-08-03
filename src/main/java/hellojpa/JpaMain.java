@@ -5,8 +5,6 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
-import java.util.List;
-
 public class JpaMain {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
@@ -17,18 +15,17 @@ public class JpaMain {
         tx.begin();
 
         try {
-//            Member findMember = em.find(Member.class, 1L);
-//            findMember.setName("HelloJPA");
-            
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                            .setFirstResult(0)
-                                    .setMaxResults(8)
-                                            .getResultList();
-            
-            for (Member member : result) {
-                System.out.println("member.getName() = " + member.getName());
-            }
-            
+
+            // 영속
+//            Member member = new Member(200L, "member200");
+            Member member1 = em.find(Member.class, 150L);
+//            member1.setName("AAAAA");
+
+            em.clear();
+
+            Member member2 = em.find(Member.class, 150L);
+
+            System.out.println("===========================");
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
